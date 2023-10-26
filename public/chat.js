@@ -9,6 +9,22 @@ const room = urlSearch.get('select_room');
 socket.emit('joinRoom', {
     username, 
     room,
+});
+
+document.getElementById("message_input").addEventListener("keypress", (event) => {
+    if(event.key === "Enter") {
+        const message = event.target.value;
+        const data = {
+            room, 
+            message, 
+            username
+        }
+        console.log(message);
+
+        socket.emit("message", data)
+        
+        event.target.value = " ";
+    }
 })
 
 console.log(username, room);
