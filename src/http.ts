@@ -11,6 +11,11 @@ app.use(express.static(path.join(__dirname,"..","public")));//Definindo a pasta 
 
 const serverHttp = http.createServer(app);//usa-se a biblioteca http para criar um servidor separado que pode ser usado para o socket
 
-const io = new Server(serverHttp); //Servidor com o socket
+const io = new Server(serverHttp, {
+    cors: {
+        origin: '*', // Permitir todas as origens
+        methods: ['GET', 'POST'], // Métodos permitidos
+      },
+}); //Servidor com o socket
 
 export { serverHttp, io }; //Exportando o servidor e o socket
