@@ -20,13 +20,13 @@ const messages: Message[] = [];
 
 io.on("connection", (socket) => {
     //o socket é direcionado para o cliente, se for para toda a aplicação, usar o io
-    socket.on("joinRoom", (data) => {
+    socket.on("joinRoom", (data, callback) => {
         console.log(data);
 
         socket.join(data.room); //entrando na sala
 
         //verificando se o usuário já está na sala
-        const userInRoom = users.find(user => user.username === data.username && user.room === data.room);
+        const userInRoom = users.find((user) => user.username === data.username && user.room === data.room);
 
         if(userInRoom){
             userInRoom.socket_id = socket.id;
@@ -39,11 +39,9 @@ io.on("connection", (socket) => {
         }
         console.log(users);
         //salvando as informações do usuário
-        users.push({
-            room: data.room,
-            username: data.username,
-            socket_id: socket.id,
-        })
+
+        const messagesRoom = getMessagesRoom(data.room);
+        callback(messagesRoom);
     });
 
     socket.on("message", data => {
@@ -53,9 +51,16 @@ io.on("connection", (socket) => {
             username: data.username,
             createAt: new Date()
         }
+        
 
         messages.push(message);
+        console.log(message);
 
         io.to(data.room).emit("message", message);
     })
 });
+
+function getMessagesRoom(room: string){
+    const messagesRoom = messages.filter(message => message.room === room);
+    return messagesRoom;
+}
