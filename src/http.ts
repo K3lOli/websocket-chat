@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname,"..","public")));//Definindo a pasta public como a pasta de arquivos estáticos
 
-const serverHttp = http.createServer(app);
+const serverHttp = http.createServer(app);//usa-se a biblioteca http para criar um servidor separado que pode ser usado para o socket
 
 const io = new Server(serverHttp); //Servidor com o socket
 
