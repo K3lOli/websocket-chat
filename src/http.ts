@@ -13,7 +13,7 @@ const serverHttp = http.createServer(app);//usa-se a biblioteca http para criar 
 
 const io = new Server(serverHttp, {
     cors: {
-		origin: process.env.PORT || "http://localhost:3000",
+		origin: ["https://websocket-chat-ios9dn7m9-k3loli.vercel.app", "https://websocket-chat-t5xmx5qve-k3loli.vercel.app" || "http://localhost:3000"],
 		methods: ["GET", "POST"],
 		credentials: true
 	}
