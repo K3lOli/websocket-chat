@@ -1,5 +1,5 @@
 
-const socket = io();
+const socket = io("https://websocket-chat-ios9dn7m9-k3loli.vercel.app/");
 
 const urlSearch = new URLSearchParams(window.location.search);
 const username = urlSearch.get("username");
