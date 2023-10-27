@@ -1,5 +1,5 @@
 
-const socket = io("https://websocket-chat-x9su.vercel.app/");
+const socket = io(process.env.PORT || "http://localhost:3000");
 
 const urlSearch = new URLSearchParams(window.location.search);
 const username = urlSearch.get("username");
