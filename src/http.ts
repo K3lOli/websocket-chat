@@ -13,9 +13,12 @@ const serverHttp = http.createServer(app);//usa-se a biblioteca http para criar 
 
 const io = new Server(serverHttp, {
     cors: {
-        origin: '*', // Permitir todas as origens
-        methods: ['GET', 'POST'], // Métodos permitidos
-      },
+        origin: "*",
+        methods: ["GET", "POST"],
+        credentials: true,
+        // transports: ['websocket', 'polling'],
+    },
+    allowEIO3: true
 }); //Servidor com o socket
 
 export { serverHttp, io }; //Exportando o servidor e o socket
