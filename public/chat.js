@@ -1,5 +1,5 @@
 
-const socket = io(process.env.PORT || "http://localhost:3000");
+const socket = io(process.env.PORT);
 
 const urlSearch = new URLSearchParams(window.location.search);
 const username = urlSearch.get("username");
