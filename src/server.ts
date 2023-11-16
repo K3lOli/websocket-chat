@@ -1,4 +1,4 @@
-import { serverHttp, io } from "./http";
+import { serverHttp} from "./http";
 import "./websocket"
 
 const PORT = 3000;
