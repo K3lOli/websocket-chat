@@ -57,21 +57,19 @@ io.on("connection", (socket) => {
             createAt: new Date()
         }
 
-        
-        insertData(message);
-        // dbConnection.query(
-        //     'INSERT INTO messages (room, username, text, createAt) VALUES (?, ?, ?, ?)',
-        //     [message.room, message.username, message.text, message.createAt],
-        //     (err: NodeJS.ErrnoException | null, results: ResultSetHeader) => {
-        //         if(err){
-        //             console.log(err);
-        //             return;
-        //         }else{
-        //             console.log("Mensagem salva com sucesso!");
-        //         }
-        //         console.log(results);
-        //     }
-        // )
+        dbConnection.query(
+            'INSERT INTO messages (room, username, text, createAt) VALUES (?, ?, ?, ?)',
+            [message.room, message.username, message.text, message.createAt],
+            (err: NodeJS.ErrnoException | null, results: ResultSetHeader) => {
+                if(err){
+                    console.log(err);
+                    return;
+                }else{
+                    console.log("Mensagem salva com sucesso!");
+                }
+                console.log(results);
+            }
+        )
         
         messages.push(message);
         console.log(message);
@@ -85,40 +83,17 @@ function getMessagesRoom(room: string){
     return messagesRoom;
 }
 
-// function getMessagesFromDatabase(room: string, callback: (messages: Message[]) => void){
-//     dbConnection.query(
-//     'SELECT * FROM messages WHERE room = ?',
-//     [room],
-//     (err: NodeJS.ErrnoException | null, results: any) => {
-//       if (err) {
-//         console.log(err);
-//         callback([]);
-//       } else {
-//         // Faça a conversão do resultado para o tipo Message[]
-//         const messages: Message[] = results as Message[];
-//         callback(messages);
-//       }
-//     }
-//   );
-// }
-
-async function getMessagesFromDatabase(room: string, callback: (messages: Message[]) => void){
-    const connection = await dbConnection();
-    const [rows, fields] = await connection.execute('SELECT * FROM messages WHERE room = ?', [room]);
-    const messages: Message[] = rows as Message[];
-    callback(messages);
-}
-
-async function insertData(message: Message){
-    const connection = await dbConnection();
-    try {
-      const query = 'INSERT INTO messages (room, username, text, createAt) VALUES (?, ?, ?, ?)';
-      const values = [message.room, message.username, message.text, message.createAt];
-      await connection.execute(query, values);
-      console.log('Dados inseridos com sucesso.');
-    } catch (error) {
-      console.error('Erro ao inserir dados no banco de dados:', error);
-    } finally {
-      connection.end();
-    } 
+function getMessagesFromDatabase(room: string, callback: (messages: Message[]) => void){
+    dbConnection.query(
+        'SELECT * FROM messages WHERE room = ?' ,
+        [room],
+        (err: NodeJS.ErrnoException | null, results: Message[]) => {
+            if(err) {
+                console.log(err);
+                callback([]);
+            } else {
+                callback(results);
+            }
+        }
+    );
 }
